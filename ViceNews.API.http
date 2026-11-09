@@ -4,3 +4,18 @@ GET {{ViceNews.API_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+GET {{ViceNews.API_HostAddress}}/api/vehicle-categories
+Accept: application/json
+
+###
+
+GET {{ViceNews.API_HostAddress}}/api/manufacturers
+Accept: application/json
+
+###
+
+GET {{ViceNews.API_HostAddress}}/api/vehicle-tags
+Accept: application/json
+
+###

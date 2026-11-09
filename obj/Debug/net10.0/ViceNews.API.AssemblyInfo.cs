@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ViceNews.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f84f0414d530c7c296b6f6f3638598709c402c43")]
 [assembly: System.Reflection.AssemblyProductAttribute("ViceNews.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ViceNews.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

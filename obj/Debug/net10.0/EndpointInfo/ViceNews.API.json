@@ -13,12 +13,11 @@
     }
   ],
   "paths": {
-    "/WeatherForecast": {
+    "/api/manufacturers": {
       "get": {
         "tags": [
-          "WeatherForecast"
+          "Manufacturers"
         ],
-        "operationId": "GetWeatherForecast",
         "responses": {
           "200": {
             "description": "OK",
@@ -27,7 +26,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
+                    "$ref": "#/components/schemas/ManufacturerDto"
                   }
                 }
               },
@@ -35,7 +34,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
+                    "$ref": "#/components/schemas/ManufacturerDto"
                   }
                 }
               },
@@ -43,7 +42,83 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
+                    "$ref": "#/components/schemas/ManufacturerDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/vehicle-categories": {
+      "get": {
+        "tags": [
+          "VehicleCategories"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VehicleCategoryDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VehicleCategoryDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VehicleCategoryDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/vehicle-tags": {
+      "get": {
+        "tags": [
+          "VehicleTags"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VehicleTagDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VehicleTagDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VehicleTagDto"
                   }
                 }
               }
@@ -55,14 +130,15 @@
   },
   "components": {
     "schemas": {
-      "WeatherForecast": {
+      "ManufacturerDto": {
+        "required": [
+          "id",
+          "name",
+          "slug"
+        ],
         "type": "object",
         "properties": {
-          "date": {
-            "type": "string",
-            "format": "date"
-          },
-          "temperatureC": {
+          "id": {
             "pattern": "^-?(?:0|[1-9]\\d*)$",
             "type": [
               "integer",
@@ -70,7 +146,23 @@
             ],
             "format": "int32"
           },
-          "temperatureF": {
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          }
+        }
+      },
+      "VehicleCategoryDto": {
+        "required": [
+          "id",
+          "name",
+          "slug"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
             "pattern": "^-?(?:0|[1-9]\\d*)$",
             "type": [
               "integer",
@@ -78,11 +170,35 @@
             ],
             "format": "int32"
           },
-          "summary": {
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          }
+        }
+      },
+      "VehicleTagDto": {
+        "required": [
+          "id",
+          "name",
+          "slug"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
             "type": [
-              "null",
+              "integer",
               "string"
-            ]
+            ],
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
           }
         }
       }
@@ -90,7 +206,13 @@
   },
   "tags": [
     {
-      "name": "WeatherForecast"
+      "name": "Manufacturers"
+    },
+    {
+      "name": "VehicleCategories"
+    },
+    {
+      "name": "VehicleTags"
     }
   ]
 }
