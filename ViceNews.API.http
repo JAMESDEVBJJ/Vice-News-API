@@ -19,3 +19,99 @@ GET {{ViceNews.API_HostAddress}}/api/vehicle-tags
 Accept: application/json
 
 ###
+
+### ---------- Vehicles ----------
+
+# Lista todos os veículos (mais recentes primeiro)
+GET {{ViceNews.API_HostAddress}}/api/vehicles
+Accept: application/json
+
+###
+
+# Busca um veículo pelo id (404 se não existir)
+GET {{ViceNews.API_HostAddress}}/api/vehicles/1
+Accept: application/json
+
+###
+
+# Cadastra um veículo (201 + Location). As tags são normalizadas e
+# deduplicadas: "Super", " super " e "SUPER" viram uma única tag "super".
+POST {{ViceNews.API_HostAddress}}/api/vehicles
+Content-Type: application/json
+
+{
+  "name": "Pfister Comet S2",
+  "manufacturerId": 1,
+  "categoryId": 1,
+  "priceGta": 1878000,
+  "description": "Esportivo alemão com motor traseiro.",
+  "maxSpeed": 82,
+  "acceleration": 79,
+  "braking": 65,
+  "handling": 74,
+  "imageUrl": "https://example.com/comet-s2.png",
+  "tags": ["Super", " super ", "Esportivo", "Tunável", "2 portas"]
+}
+
+###
+
+# Erro de validação (400): nome vazio, preço negativo, estatística fora de 0-100, handling ausente
+POST {{ViceNews.API_HostAddress}}/api/vehicles
+Content-Type: application/json
+
+{
+  "name": "",
+  "manufacturerId": 1,
+  "categoryId": 1,
+  "priceGta": -10,
+  "description": "Teste",
+  "maxSpeed": 150,
+  "acceleration": 50,
+  "braking": 50
+}
+
+###
+
+# Fabricante inexistente (404)
+POST {{ViceNews.API_HostAddress}}/api/vehicles
+Content-Type: application/json
+
+{
+  "name": "Veículo de teste",
+  "manufacturerId": 99999,
+  "categoryId": 1,
+  "priceGta": 1000,
+  "description": "Teste",
+  "maxSpeed": 50,
+  "acceleration": 50,
+  "braking": 50,
+  "handling": 50
+}
+
+###
+
+# Atualização completa (200). Tags ausentes da lista são desassociadas
+# (o catálogo de tags é preservado); o slug muda porque o nome mudou.
+PUT {{ViceNews.API_HostAddress}}/api/vehicles/1
+Content-Type: application/json
+
+{
+  "name": "Pfister Comet S2 Cabrio",
+  "manufacturerId": 1,
+  "categoryId": 1,
+  "priceGta": 1950000,
+  "description": "Versão conversível do Comet S2.",
+  "maxSpeed": 84,
+  "acceleration": 80,
+  "braking": 66,
+  "handling": 72,
+  "imageUrl": null,
+  "tags": ["Super", "Conversível"]
+}
+
+###
+
+# Exclui o veículo (204; 404 se não existir)
+DELETE {{ViceNews.API_HostAddress}}/api/vehicles/1
+
+###

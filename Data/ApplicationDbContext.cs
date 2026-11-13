@@ -15,6 +15,12 @@ public class ApplicationDbContext : DbContext
     public DbSet<VehicleTag> VehicleTags => Set<VehicleTag>();
     public DbSet<VehicleTagAssignment> VehicleTagAssignments => Set<VehicleTagAssignment>();
 
+    public DbSet<News> News => Set<News>();
+    public DbSet<User> Users => Set<User>();
+    public DbSet<Category> Categories => Set<Category>();
+    public DbSet<Tag> Tags => Set<Tag>();
+    public DbSet<NewsTag> NewsTags => Set<NewsTag>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
