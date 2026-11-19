@@ -9,10 +9,14 @@ builder.Services.AddControllers();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("ViceNewsFrontend", policy =>
+    options.AddPolicy("AllowFrontend", policy =>
     {
         policy
-            .WithOrigins("https://vice-news-silk.vercel.app/")
+            .WithOrigins(
+                "http://localhost:5173",
+                "http://localhost:4173",
+                "https://vice-news-silk.vercel.app"
+            )
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
@@ -39,7 +43,7 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
-app.UseCors("ViceNewsFrontend");
+app.UseCors("AllowFrontend");
 
 app.UseAuthorization();
 
