@@ -12,7 +12,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("ViceNewsFrontend", policy =>
     {
         policy
-            .WithOrigins("http://localhost:5173")
+            .WithOrigins("https://vice-news-silk.vercel.app/")
             .AllowAnyHeader()
             .AllowAnyMethod();
     });

@@ -11,7 +11,6 @@ namespace ViceNews.API.Services;
 
 public class VehicleService : IVehicleService
 {
-    // Mirrors VehicleTagConfiguration (Name max length 100).
     private const int TagNameMaxLength = 100;
 
     private static readonly Expression<Func<Vehicle, VehicleResponseDto>> ToResponse = v => new VehicleResponseDto(
@@ -72,7 +71,6 @@ public class VehicleService : IVehicleService
 
         var data = prepared.Value;
 
-        // Tag creation runs as its own statement, so wrap it with the vehicle insert.
         await using var transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
 
         var now = DateTimeOffset.UtcNow;
@@ -146,8 +144,6 @@ public class VehicleService : IVehicleService
 
     public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        // VehicleTagAssignments are removed by the ON DELETE CASCADE foreign key.
-        // Manufacturer, VehicleCategory and VehicleTag rows are never touched.
         var deleted = await _context.Vehicles
             .Where(v => v.Id == id)
             .ExecuteDeleteAsync(cancellationToken);
@@ -155,9 +151,6 @@ public class VehicleService : IVehicleService
         return deleted > 0;
     }
 
-    /// <summary>
-    /// Validates and normalizes the request, and checks that the referenced manufacturer and category exist.
-    /// </summary>
     private async Task<ServiceResult<VehicleData>> PrepareAsync(
         VehicleRequestDtoBase request,
         CancellationToken cancellationToken)
@@ -220,10 +213,6 @@ public class VehicleService : IVehicleService
         vehicle.ImageUrl = data.ImageUrl;
     }
 
-    /// <summary>
-    /// Trims and collapses whitespace, drops empty entries and removes duplicates by slug,
-    /// so "SUPER", " super " and "Super" collapse into one tag (first spelling wins).
-    /// </summary>
     private static ServiceResult<IReadOnlyList<NormalizedTag>> NormalizeTags(IReadOnlyList<string?>? rawTags)
     {
         var tags = new List<NormalizedTag>();
@@ -257,9 +246,6 @@ public class VehicleService : IVehicleService
         return ServiceResult<IReadOnlyList<NormalizedTag>>.Success(tags);
     }
 
-    /// <summary>
-    /// Returns the ids of the given tags, creating the missing ones. Must run inside the caller's transaction.
-    /// </summary>
     private async Task<IReadOnlyList<int>> ResolveTagIdsAsync(
         IReadOnlyList<NormalizedTag> tags,
         CancellationToken cancellationToken)
@@ -284,8 +270,6 @@ public class VehicleService : IVehicleService
             var names = missing.Select(t => t.Name).ToArray();
             var missingSlugs = missing.Select(t => t.Slug).ToArray();
 
-            // ON CONFLICT relies on the unique Slug index, so a tag created concurrently by another
-            // request is reused instead of failing this one. Table/columns follow VehicleTagConfiguration.
             await _context.Database.ExecuteSqlAsync(
                 $"""
                 INSERT INTO "VehicleTags" ("Name", "Slug")
@@ -302,10 +286,6 @@ public class VehicleService : IVehicleService
             .ToListAsync(cancellationToken);
     }
 
-    /// <summary>
-    /// Adds missing assignments and removes the ones no longer requested.
-    /// VehicleTag catalog rows are kept even when they lose their last vehicle.
-    /// </summary>
     private static void SyncTagAssignments(Vehicle vehicle, IReadOnlyList<int> tagIds)
     {
         var desired = tagIds.ToHashSet();
@@ -323,9 +303,6 @@ public class VehicleService : IVehicleService
         }
     }
 
-    /// <summary>
-    /// Builds "base", "base-2", "base-3"... skipping slugs already used by other vehicles.
-    /// </summary>
     private async Task<string> GenerateUniqueVehicleSlugAsync(
         string name,
         int excludeVehicleId,
@@ -356,9 +333,6 @@ public class VehicleService : IVehicleService
         }
     }
 
-    /// <summary>
-    /// Saves pending changes; returns false when a concurrent request took the same vehicle slug.
-    /// </summary>
     private async Task<bool> TrySaveChangesAsync(CancellationToken cancellationToken)
     {
         try

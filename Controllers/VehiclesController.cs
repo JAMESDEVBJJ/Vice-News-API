@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ViceNews.API.DTOs;
 using ViceNews.API.Services;
@@ -65,14 +66,16 @@ public class VehiclesController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
+    //[Authorize(Roles = "Admin")] ainda sem autenticação e autorização implementadas
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
         return await _service.DeleteAsync(id, cancellationToken) ? NoContent() : NotFound();
     }
 
-    // Translates expected service failures into ProblemDetails responses.
     private ActionResult ToErrorResult(ServiceError error)
     {
         switch (error.Type)

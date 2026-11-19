@@ -171,7 +171,6 @@ C:\Users\james\source\repos\ViceNews.API\ViceNews.API\obj\Release\net10.0\static
 C:\Users\james\source\repos\ViceNews.API\ViceNews.API\obj\Release\net10.0\staticwebassets.development.json
 C:\Users\james\source\repos\ViceNews.API\ViceNews.API\obj\Release\net10.0\staticwebassets.build.endpoints.json
 C:\Users\james\source\repos\ViceNews.API\ViceNews.API\obj\Release\net10.0\swae.build.ex.cache
-C:\Users\james\source\repos\ViceNews.API\ViceNews.API\obj\Release\net10.0\staticwebassets.upToDateCheck.txt
 C:\Users\james\source\repos\ViceNews.API\ViceNews.API\obj\Release\net10.0\ViceNews.AB48C226.Up2Date
 C:\Users\james\source\repos\ViceNews.API\ViceNews.API\obj\Release\net10.0\ViceNews.API.dll
 C:\Users\james\source\repos\ViceNews.API\ViceNews.API\obj\Release\net10.0\refint\ViceNews.API.dll
